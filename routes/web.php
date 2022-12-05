@@ -29,5 +29,7 @@ Route::controller(TagController::class)->group(function () {
     Route::get('tags/oldest-of-many', 'oldestOfMany');
     Route::get('tags', 'index');
 
-
+});
+Route::controller(\App\Http\Controllers\CategoryController::class)->prefix('categories')->group(function (){
+    Route::get('raw', 'testRaw');
 });
