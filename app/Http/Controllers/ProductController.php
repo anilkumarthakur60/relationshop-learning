@@ -112,12 +112,12 @@ class ProductController extends Controller
             'sortDesc' => 'nullable|boolean',
         ]);
 
-        $columns = explode(',', $request->query('columns', "name"));
+        $columns = explode(',', $request->query('columns', "id,name"));
         $flatColumns = collect($columns)->flatten()->toArray();
         $this->checkFillable(app('App\\Models\\' . $dynamicApiRequest->name), $flatColumns,);
 
-        return (app('App\\Models\\' . $dynamicApiRequest->name)::select($flatColumns))
-            ->paginate($request->query('per_page', 10));
+        return \response()->json(['data'=>app('App\\Models\\' . $dynamicApiRequest->name)::select($flatColumns)
+            ->paginate($request->query('per_page', 10))]);
     }
 
 

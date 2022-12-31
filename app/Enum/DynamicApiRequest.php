@@ -7,7 +7,7 @@ enum DynamicApiRequest:string
 
     case  Category = 'category';
     case  Post = 'post';
-    case  Tag = 'tags';
+    case  Tag = 'tag';
     case  User = 'user';
     case  Comment = 'comment';
     case  Role = 'role';

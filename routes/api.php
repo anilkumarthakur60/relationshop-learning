@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('dynamic-table-data/{dynamicApiRequest}', [ProductController::class, 'dynamicTable'])->name('dynamic-table');
+Route::get('dynamic-table-data/{dynamicApiRequest}', [ProductController::class, 'dynamicTable'])->name('dynamic-table');
