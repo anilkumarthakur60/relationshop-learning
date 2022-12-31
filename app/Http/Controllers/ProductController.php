@@ -96,8 +96,14 @@ class ProductController extends Controller
     }
 
 
-    public function dynamicTable(Request $request,DynamicApiRequest  $dynamicApiRequest)
+    public function dynamicTable(Request $request, DynamicApiRequest $dynamicApiRequest)
     {
+
+//
+//        $d1 = ['id', 'name', 'id1', 'name1'];
+//        $d2 = ['id', 'name'];
+//
+//        return array_diff($d1, $d2);
 
         $this->validate($request, [
             'page' => 'nullable|integer',
@@ -105,27 +111,44 @@ class ProductController extends Controller
             'sortBy' => 'nullable|string',
             'sortDesc' => 'nullable|boolean',
             'filter' => 'nullable|string',
-            'columns'=>'nullable|string',
+            'columns' => 'nullable|string',
         ]);
 
+        $columns = explode(',', $request->query('columns', "name"));
+        $flatColumns = collect($columns)->flatten()->toArray();
+        $this->checkFillable(app('App\\Models\\' . $dynamicApiRequest->name), $flatColumns,);
 
-        $columns=explode(',',$request->query('columns',"name"));
-        $flatColumns=collect($columns)->flatten()->toArray();
-        $this->checkFillable(app('App\\Models\\'.$dynamicApiRequest->name),$flatColumns,);
-
-        return (app('App\\Models\\'.$dynamicApiRequest->name)::select($flatColumns))
-            ->paginate($request->query('per_page',10));
+        return (app('App\\Models\\' . $dynamicApiRequest->name)::select($flatColumns))
+            ->paginate($request->query('per_page', 10));
     }
-    private  function  checkFillable($model,$columns){
-        $tcolumn = Schema::getColumnListing($this->tableName($model));
-        $diff=array_diff($columns,$tcolumn);
-        if (count($diff)>0){
-            abort(400,'Invalid columns '.implode(',',$diff));
+
+
+    /**
+     * @param $model
+     * @param $columns
+     * @return true
+     */
+    private function checkFillable($model, $columns)
+    {
+        $fillableColumns = $this->fillableColumn($model);
+
+        $diff = array_diff($columns,$fillableColumns);
+        if (count($diff) > 0) {
+            abort(400, 'Invalid columns ' . implode(',', $diff).' in table'. $this->tableName($model));
         }
 
+        return TRUE;
     }
 
-    private function tableName($model){
+
+    private function fillableColumn($model): array
+    {
+        return Schema::getColumnListing($this->tableName($model));
+    }
+
+
+    private function tableName($model): string
+    {
         return $model->getTable();
     }
 }
