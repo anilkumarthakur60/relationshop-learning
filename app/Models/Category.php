@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Illuminate\Support\Facades\Schema;
 class Category extends Model
 {
     use HasFactory;
@@ -20,6 +22,31 @@ class Category extends Model
     ];
 
 
+    public function __construct()
+    {
+        $this->setFillable();
+    }
+
+
+    public function setFillable()
+    {
+        $fields = Schema::getColumnListing('categories');
+
+        $this->fillable[] = $fields;
+    }
+
+
+     public function getFillable()
+    {
+        return Schema::getColumnListing($this->getTable());
+    }
+
+    public static function withTagData(): Category
+    {
+        return self::append('tag_name');
+    }
+
+
     public function sluggable(): array
     {
         return [
@@ -30,7 +57,7 @@ class Category extends Model
     }
 
 
-    public function tag():BelongsTo
+    public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
     }
@@ -42,18 +69,11 @@ class Category extends Model
         return Attribute::make(
             get: fn() => $this->tag->name,
         );
-
     }
 
 
-    public function withTagName():Category
+    public function withTagName(): Category
     {
         return $this->append('tag_name');
-
-    }
-      public static function withTagData():Category
-    {
-        return self::append('tag_name');
-
     }
 }

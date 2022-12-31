@@ -17,42 +17,46 @@ use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use AhmedAliraqi\LaravelMediaUploader\Entities\Concerns\HasUploader;
 
-class Tag extends Model implements  HasMedia
+class Tag extends Model implements HasMedia
 {
     use HasFactory;
     use  Sluggable;
-        use InteractsWithMedia, HasUploader;
+    use InteractsWithMedia, HasUploader;
 
-    protected $guarded=['id'];
-    public function posts():BelongsToMany
+    protected $fillable = ['name', 'slug'];
+
+
+    public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class);
     }
+
 
     public function sluggable(): array
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 
-//    hasManyCategories
+
+    //    hasManyCategories
     public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
     }
 
+
     public function latestCategory(): HasOne
     {
         return $this->hasOne(Category::class)->latestOfMany();
-
     }
+
 
     public function oldestCategory(): HasOne
     {
         return $this->hasOne(Category::class)->oldestOfMany();
-
     }
 }
