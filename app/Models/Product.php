@@ -14,7 +14,7 @@ class Product extends Model
 
      public function tags():MorphToMany
     {
-        return $this->morphToMany(Tag::class,'taggable');
+        return $this->morphToMany(Tag::class,'taggable','taggables','taggable_id','tag_id');
 
     }
 
