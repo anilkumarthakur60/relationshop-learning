@@ -39,4 +39,6 @@ class Post extends Model
         return $this->morphMany(ViewData::class,'viewable');
     }
 
+
+
 }

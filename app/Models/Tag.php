@@ -89,4 +89,11 @@ class Tag extends Model implements HasMedia
             $query->where('published_at', '>', now());
         });
     }
+
+
+    public function taggables():MorphMany
+    {
+        return $this->morphedByMany(Post:: class, 'taggable');
+
+    }
 }
