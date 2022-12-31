@@ -28,8 +28,15 @@ Route::controller(TagController::class)->group(function () {
     Route::get('tags/latest-category', 'latestCategory');
     Route::get('tags/oldest-of-many', 'oldestOfMany');
     Route::get('tags', 'index');
+    Route::get('tags/create', 'create')->name('tag.create');
+    Route::post('tags/store', 'store')->name('tag.store');
+
 
 });
 Route::controller(\App\Http\Controllers\CategoryController::class)->prefix('categories')->group(function (){
     Route::get('raw', 'testRaw');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
