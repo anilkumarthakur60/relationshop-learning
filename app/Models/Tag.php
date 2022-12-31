@@ -9,6 +9,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -58,5 +59,11 @@ class Tag extends Model implements HasMedia
     public function oldestCategory(): HasOne
     {
         return $this->hasOne(Category::class)->oldestOfMany();
+    }
+
+
+    public function viewData(): MorphMany
+    {
+        return $this->morphMany(ViewData::class, 'viewable');
     }
 }

@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Support\Facades\Schema;
+
 class Category extends Model
 {
     use HasFactory;
@@ -36,14 +37,15 @@ class Category extends Model
     }
 
 
-     public function getFillable()
-    {
-        return Schema::getColumnListing($this->getTable());
-    }
-
     public static function withTagData(): Category
     {
         return self::append('tag_name');
+    }
+
+
+    public function getFillable()
+    {
+        return Schema::getColumnListing($this->getTable());
     }
 
 
@@ -75,5 +77,11 @@ class Category extends Model
     public function withTagName(): Category
     {
         return $this->append('tag_name');
+    }
+
+
+    public function viewData(): MorphMany
+    {
+        return $this->morphMany(ViewData::class, 'viewable');
     }
 }

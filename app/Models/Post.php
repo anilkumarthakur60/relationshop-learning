@@ -7,10 +7,12 @@ use Database\Factories\PostFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
@@ -18,7 +20,7 @@ class Post extends Model
     use  Sluggable;
 
 //belongsToMany    tags
-    public function tags()
+    public function tags():BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }
@@ -32,6 +34,9 @@ class Post extends Model
         ];
     }
 
-
+    public  function  viewData():MorphMany
+    {
+        return $this->morphMany(ViewData::class,'viewable');
+    }
 
 }

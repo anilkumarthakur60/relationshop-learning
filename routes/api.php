@@ -2,7 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ViewDataController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('dynamic-table-data/{dynamicApiRequest}', [ProductController::class, 'dynamicTable'])->name('dynamic-table');
+
+Route::resources([
+    'view-data' => ViewDataController::class,
+    'categories' => CategoryController::class,
+    'posts' => PostController::class,
+    'tags' => TagController::class,
+
+]);

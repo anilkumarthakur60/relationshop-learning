@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
@@ -17,7 +18,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $tag=Tag::find(1);
+        $category1=Category::whereBelongsTo($tag)->get();
+        return  $category1;
     }
 
     /**
