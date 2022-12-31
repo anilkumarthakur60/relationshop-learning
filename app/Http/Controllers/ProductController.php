@@ -99,14 +99,9 @@ class ProductController extends Controller
     public function dynamicTable(Request $request, DynamicApiRequest $dynamicApiRequest)
     {
 
-//
-//        $d1 = ['id', 'name', 'id1', 'name1'];
-//        $d2 = ['id', 'name'];
-//
-//        return array_diff($d1, $d2);
 
         $this->validate($request, [
-            'page' => 'nullable|integer',
+            'page' => 'nullable|integer|gte:0',
             'perPage' => 'nullable|integer',
             'sortBy' => 'nullable|string',
             'sortDesc' => 'nullable|boolean',
@@ -116,6 +111,9 @@ class ProductController extends Controller
         $flatColumns = collect($columns)->flatten()->toArray();
         $this->checkFillable(app('App\\Models\\' . $dynamicApiRequest->name), $flatColumns,);
 
+        if (!app('App\\Models\\' . $dynamicApiRequest->name)){
+            return response()->json(['message' => 'Model not found'], 404);
+        }
         return \response()->json(['data'=>app('App\\Models\\' . $dynamicApiRequest->name)::select($flatColumns)
             ->paginate($request->query('per_page', 10))]);
     }
