@@ -60,9 +60,21 @@ class ViewDataController extends Controller
             ->with([
                 'viewable' => function (MorphTo $morphTo) {
                     $morphTo->morphWith([
-                        Post::class => ['tags'],
-                        Tag::class => ['categories'],
-                        Category::class => ['tag'],
+                        Post::class => [
+                            'tags' => function ($q) {
+                                $q->select(['tags.id', 'tags.name']);
+                            },
+                        ],
+                        Tag::class => [
+                            'categories' => function ($q) {
+                                $q->select(['categories.id', 'categories.name']);
+                            },
+                        ],
+                        Category::class => [
+                            'tag' => function ($q) {
+                                $q->select(['tags.id', 'tags.name']);
+                            },
+                        ],
                     ]);
                 },
             ])->get();
@@ -79,15 +91,30 @@ class ViewDataController extends Controller
 
         $viewData7 = ViewData::whereHasMorph(
             'viewable',
-            [Post::class, Tag::class, Category::class],
+            [Category::class, Post::class, Tag::class],
             function (Builder $query, $type) {
+
+
                 $column = $type === Category::class ? 'names' : 'name';
 
                 $query->where($column, 'like', '%Category first name%');
             }
         )->get();
 
-        return $viewData7;
+        $viewData8 = ViewData::with([
+            'viewable' => function (MorphTo $morphTo) {
+                $morphTo->constrain([
+                    Post::class => function (Builder $query) {
+                        $query->whereNotNull('name');
+                    },
+                    Category::class => function (Builder $query) {
+                        $query->where('names', 'like', '%Category first name%');
+                    },
+                ]);
+            },
+        ])->get();
+
+        return $viewData8;
         //
     }
 

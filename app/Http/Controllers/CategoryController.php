@@ -18,10 +18,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $tag=Tag::find(1);
-        $category1=Category::whereBelongsTo($tag)->get();
-        return  $category1;
+        $tag = Tag::find(1);
+        $category1 = Category::whereBelongsTo($tag)->get();
+
+
+
+        return $category1;
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -32,6 +36,7 @@ class CategoryController extends Controller
     {
         //
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -44,6 +49,7 @@ class CategoryController extends Controller
         //
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -55,6 +61,7 @@ class CategoryController extends Controller
         //
     }
 
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -65,6 +72,7 @@ class CategoryController extends Controller
     {
         //
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -78,6 +86,7 @@ class CategoryController extends Controller
         //
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
@@ -89,11 +98,11 @@ class CategoryController extends Controller
         //
     }
 
+
     public function testRaw()
     {
         $query = Category::latest('name')->get();
 
         return view('categories.raw', compact('query'));
-
     }
 }

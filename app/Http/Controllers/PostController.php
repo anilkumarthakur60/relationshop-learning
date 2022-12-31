@@ -13,13 +13,16 @@ class PostController extends Controller
     public function index()
     {
 
-        return Post::query()
+        $post1= Post::query()
            ->withExists('tags')
             ->with('tags:id,name,slug')
             ->withCount('tags')
             ->get();
 
-        return Post::whereExists('tags')->with('tags')->get();
+        $post2 =Post::whereExists(function ($query){
+
+        })->with('tags')->get();
+        return $post2;
         //
     }
 

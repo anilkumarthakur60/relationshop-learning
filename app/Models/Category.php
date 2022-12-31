@@ -23,9 +23,22 @@ class Category extends Model
     ];
 
 
-    public function __construct()
+    /**
+     *
+     */
+    public function __construct(array $attributes = [])
     {
+        parent::__construct($attributes);
         $this->setFillable();
+    }
+
+
+    //
+
+
+    public static function withTagData(): Category
+    {
+        return self::append('tag_name');
     }
 
 
@@ -34,12 +47,6 @@ class Category extends Model
         $fields = Schema::getColumnListing('categories');
 
         $this->fillable[] = $fields;
-    }
-
-
-    public static function withTagData(): Category
-    {
-        return self::append('tag_name');
     }
 
 

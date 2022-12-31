@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('names');
+            $table->unsignedDouble('order');
             $table->string('slug')->nullable()->unique();
+            $table->dateTime('published_at')->default(now());
             $table->timestamps();
         });
     }

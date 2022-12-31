@@ -66,4 +66,27 @@ class Tag extends Model implements HasMedia
     {
         return $this->morphMany(ViewData::class, 'viewable');
     }
+
+
+    public function largestOrder(): HasOne
+    {
+        return $this->hasOne(Category::class)->ofMany('order', 'max');
+    }
+
+
+    public function smallestOrder(): HasOne
+    {
+        return $this->hasOne(Category::class)->ofMany('order', 'min');
+    }
+
+
+    public function futureCategory(): HasOne
+    {
+        return $this->hasOne(Category::class)->ofMany([
+            'order' => 'max',
+            'id' => 'max',
+        ], function ($query) {
+            $query->where('published_at', '>', now());
+        });
+    }
 }
