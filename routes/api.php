@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ViewDataController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PayOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,6 @@ Route::resources([
     'tags' => TagController::class,
 
 ]);
+Route::controller(PayOrderController::class)->prefix('pay-order')->group(function () {
+    Route::get('', 'index')->name('pay-order.index');
+});
