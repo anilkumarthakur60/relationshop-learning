@@ -8,11 +8,8 @@
 </head>
 <body>
     
-    <ul>
-        @foreach($tags as $task)
-            <li>{{ $task->name }}</li>
-        @endforeach
-    </ul>
+   @include('partials.dropdown', ['field' => 'tag_id'])
+	@include('partials.list')
     
     
 </body>

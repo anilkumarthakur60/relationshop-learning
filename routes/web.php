@@ -40,3 +40,6 @@ Route::controller(\App\Http\Controllers\CategoryController::class)->prefix('cate
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::view('/welcome', 'welcome.welcome');
+Route::view('/welcome1', 'welcome.welcome1');

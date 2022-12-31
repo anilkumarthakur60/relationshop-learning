@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Tag;
+use App\View\TagComposer;
 use App\Billing\BankPaymentGateway;
+use Illuminate\Support\Facades\View;
 use App\Billing\CreditPaymentGateway;
 use Illuminate\Support\ServiceProvider;
 use App\Billing\PaymentGatewayContract;
@@ -41,6 +44,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+
+
     }
 }
