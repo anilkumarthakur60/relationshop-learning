@@ -110,8 +110,6 @@ class ProductController extends Controller
             'perPage' => 'nullable|integer',
             'sortBy' => 'nullable|string',
             'sortDesc' => 'nullable|boolean',
-            'filter' => 'nullable|string',
-            'columns' => 'nullable|string',
         ]);
 
         $columns = explode(',', $request->query('columns', "name"));
@@ -134,7 +132,7 @@ class ProductController extends Controller
 
         $diff = array_diff($columns,$fillableColumns);
         if (count($diff) > 0) {
-            abort(400, 'Invalid columns ' . implode(',', $diff).' in table'. $this->tableName($model));
+            abort(400, 'Invalid columns ' . implode(',', $diff).' in table '. $this->tableName($model));
         }
 
         return TRUE;
