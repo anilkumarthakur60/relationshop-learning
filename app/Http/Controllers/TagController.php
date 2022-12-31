@@ -34,7 +34,12 @@ class TagController extends Controller
             new Category(['name' => 'A new comment.']),
             new Category(['name' => 'Another new comment.']),
         ]);
-        $tagB->refresh();
+        $tagC = Tag::inRandomOrder()->first();
+            $tagB->categories()->createMany([
+            ['name' => 'A new comment.'],
+            ['name' => 'Another new comment.'],
+        ]);
+        $tagC->refresh();
 
         return $tagB->categories;
     }
